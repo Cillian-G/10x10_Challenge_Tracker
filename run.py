@@ -18,6 +18,10 @@ welcome_message = "Welcome to 10x10_challenge_tracker, a handy tool for "\
                   "it"
 
 game_selection = int
+result_type = ""
+game_data_worksheets = ("game1", "game2", "game3", "game4", "game5", "game6",
+                        "game7", "game8", "game9", "game10")
+active_worksheet = ""
 
 
 def welcome_menu():
@@ -28,10 +32,28 @@ def welcome_menu():
 
 
 def validate_game_selection(selection):
-    selection = int(selection)
-    if (selection > 0 and selection <= 10):
-        return True
-    else:
+    try:
+        selection = int(selection)
+        if (selection >= 1 and selection <= 10):
+            return True
+        else: 
+            raise ValueError(
+                "Please enter a value between 1 and 10")
+    except ValueError as e:
+        print(f"Invalid input: {e}")
+        return False
+
+
+def validate_duration(duration):
+    try:
+        duration = int(duration)
+        if (duration >= 10 and duration <= 500):
+            return True
+        else: 
+            raise ValueError(
+                "Please enter a value between 10 and 500")
+    except ValueError as e:
+        print(f"Invalid input: {e}")
         return False
 
 
@@ -52,18 +74,37 @@ def get_game_selection():
             print(f"{ind} {title}")
 
         global game_selection
+        global result_type
+        global active_worksheet
         game_selection = input("Enter your game selection here: ")
         if validate_game_selection(game_selection):
-            selected_title = game_type.cell(game_selection, 2).value 
+            selected_title = game_type.cell(game_selection, 2).value
+            result_type = game_type.cell(game_selection, 3).value
+            active_worksheet = game_data_worksheets[game_selection]
             print(f"You have selected {selected_title}")
+            print(active_worksheet)
             break
-        
-    return game_selection
+
+    # game_data_input()
+
+
+# def get_duration():
+#     while True:
+#         duration_data = input("Enter game duration in minutes: ")
+#         if validate_duration(duration_data):
+
+
+
+
+# def game_data_input():
+#     if result_type == "score_based":
+#         get_duration()
 
 
 welcome_menu()
 get_game_selection()
-print(game_selection)
+
+
 
 
 
