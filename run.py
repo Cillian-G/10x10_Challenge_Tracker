@@ -17,6 +17,8 @@ welcome_message = "Welcome to 10x10_challenge_tracker, a handy tool for "\
                   "keeping track \nof your 10x10 challenge as you complete "\
                   "it"
 
+game_selection = int
+
 
 def welcome_menu():
     """
@@ -25,26 +27,43 @@ def welcome_menu():
     print(welcome_message)
 
 
-def get_game_data():
+def validate_game_selection(selection):
+    selection = int(selection)
+    if (selection > 0 and selection <= 10):
+        return True
+    else:
+        return False
+
+
+def get_game_selection():
     """
-    Takes game details input by user and records them to 
-    the google sheet for the game in question
+    Requests the user to input a number corresponding to the game
+    they wish to select
     """
-    game_selection_instructions = "Enter the number that corresponds to the "\
-                                  "game you wish to enter data for"
+    while True:
+        game_selection_instructions = "Enter the number that corresponds to "\
+                                    "the game you wish to enter data for"
 
-    print(game_selection_instructions)
+        print(game_selection_instructions)
 
-    game_title = SHEET.worksheet("game_type")
-    for ind in range(1, 11):
-        title = game_title.cell(ind, 2).value
-        print(f"{ind} {title}")
+        game_type = SHEET.worksheet("game_type")
+        for ind in range(1, 11):
+            title = game_type.cell(ind, 2).value
+            print(f"{ind} {title}")
 
-    game_selection = input("Enter your game selection here: ")
+        global game_selection
+        game_selection = input("Enter your game selection here: ")
+        if validate_game_selection(game_selection):
+            selected_title = game_type.cell(game_selection, 2).value 
+            print(f"You have selected {selected_title}")
+            break
+        
     return game_selection
 
 
 welcome_menu()
-print(get_game_data())
+get_game_selection()
+print(game_selection)
+
 
 
