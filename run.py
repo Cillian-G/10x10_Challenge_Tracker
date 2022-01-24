@@ -13,4 +13,9 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('10x10_challenge_tracker')
 
 
-print("10x10_challenge_tracker")
+welcome_message = "Welcome to 10x10_challenge_tracker, a handy tool for "\
+                  "keeping track \nof your 10x10 challenge as you complete "\
+                  "it"
+
+print(welcome_message)
+
