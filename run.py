@@ -145,7 +145,7 @@ def get_duration():
 def get_score():
     global score_data
     while True:
-        score_data = input("Enter winning players score: ")
+        score_data = input("Enter winning player's score: ")
         if validate_score(score_data):
             break
     values_list = active_worksheet.col_values(2)
@@ -156,7 +156,7 @@ def get_score():
 def get_result_description():
     global description_data
     while True:
-        description_data = input(description_request)
+        description_data = input( f"\n{description_request}")
         if validate_description(description_data):
             break
     values_list = active_worksheet.col_values(4)
@@ -169,15 +169,26 @@ def game_data_input():
     if result_type == "score_based":
         get_score()
     get_result_description()
-    print(f"{selected_title} session summary\nLength:{duration_data}mins")
+    print(f"{selected_title} session summary\nLength:{duration_data} mins")
     if result_type == "score_based":
         print(f"Winning score: {score_data}")
     print(f"Description: {description_data}")
+    challenge_graph()
     # current_game_overview()
 
+
 def challenge_graph():
+    games_played = len(active_worksheet.col_values(1)) - 1
+    games_remaining = 10 - games_played
+    print(f"{selected_title} - {games_played}/10 games played")
+    graph = ""
+    for i in range(games_played):
+        graph += "█   "
     
-    
+    for i in range(games_remaining):
+        graph += "░   "
+
+    print(graph)   
 
 
 welcome_menu()
