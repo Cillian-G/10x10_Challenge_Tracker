@@ -19,11 +19,17 @@ welcome_message = "Welcome to 10x10_challenge_tracker, a handy tool for "\
                   "keeping track \nof your 10x10 challenge as you complete "\
                   "it"
 
+description_request = "Enter a brief description of the result of the game:\n"
+
 game_selection = int
 result_type = ""
 game_data_worksheets = ("game1", "game2", "game3", "game4", "game5", "game6",
                         "game7", "game8", "game9", "game10")
 active_worksheet = ""
+duration_data = ""
+score_data = ""
+description_data = ""
+selected_title = ""
 
 
 def clear():
@@ -70,12 +76,23 @@ def validate_duration(duration):
 
 def validate_score(score):
     try:
-        # score = int(score)
         if type(int(score)) == int:
             return True
         else: 
             raise ValueError(
                 "Please enter an integer value")
+    except ValueError as e:
+        print(f"Invalid input: {e}")
+        return False
+
+
+def validate_description(description):
+    try:
+        if len(description) > 10 and len(description) < 60:
+            return True
+        else: 
+            raise ValueError(
+                "Please enter a description of less than 60 characters")
     except ValueError as e:
         print(f"Invalid input: {e}")
         return False
@@ -90,6 +107,11 @@ def get_game_selection():
         game_selection_instructions = "\nEnter the number that corresponds "\
                                     "to the game you wish to enter data for\n"
 
+        global game_selection
+        global result_type
+        global active_worksheet
+        global selected_title
+
         print(game_selection_instructions)
 
         game_type = SHEET.worksheet("game_type")
@@ -97,9 +119,6 @@ def get_game_selection():
         #     title = game_type.cell(ind, 2).value
         #     print(f"{ind} {title}")
 
-        global game_selection
-        global result_type
-        global active_worksheet
         game_selection = input("\nEnter your game selection here: ")
         if validate_game_selection(game_selection):
             selected_title = game_type.cell(game_selection, 2).value
@@ -113,6 +132,7 @@ def get_game_selection():
 
 
 def get_duration():
+    global duration_data
     while True:
         duration_data = input("Enter game duration in minutes: ")
         if validate_duration(duration_data):
@@ -123,6 +143,7 @@ def get_duration():
 
 
 def get_score():
+    global score_data
     while True:
         score_data = input("Enter winning players score: ")
         if validate_score(score_data):
@@ -132,12 +153,31 @@ def get_score():
     active_worksheet.update_cell(row_location, 2, score_data)
 
 
+def get_result_description():
+    global description_data
+    while True:
+        description_data = input(description_request)
+        if validate_description(description_data):
+            break
+    values_list = active_worksheet.col_values(4)
+    row_location = len(values_list) + 1
+    active_worksheet.update_cell(row_location, 4, description_data)
+
+
 def game_data_input():
     get_duration()
     if result_type == "score_based":
         get_score()
-    # get_result_description()
+    get_result_description()
+    print(f"{selected_title} session summary\nLength:{duration_data}mins")
+    if result_type == "score_based":
+        print(f"Winning score: {score_data}")
+    print(f"Description: {description_data}")
     # current_game_overview()
+
+def challenge_graph():
+    
+    
 
 
 welcome_menu()
