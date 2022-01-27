@@ -50,7 +50,7 @@ def validate_game_selection(selection):
         else: 
             raise ValueError(
                 "Please enter a value between 1 and 10")
-    except ValueError as e:
+    except ValueError as selection:
         print(f"{selection} is not a valid input, please try again")
         return False
 
@@ -63,6 +63,19 @@ def validate_duration(duration):
         else: 
             raise ValueError(
                 "Please enter a value between 10 and 500")
+    except ValueError as e:
+        print(f"Invalid input: {e}")
+        return False
+
+
+def validate_score(score):
+    try:
+        # score = int(score)
+        if type(int(score)) == int:
+            return True
+        else: 
+            raise ValueError(
+                "Please enter an integer value")
     except ValueError as e:
         print(f"Invalid input: {e}")
         return False
@@ -112,8 +125,11 @@ def get_duration():
 def get_score():
     while True:
         score_data = input("Enter winning players score: ")
-
-
+        if validate_score(score_data):
+            break
+    values_list = active_worksheet.col_values(2)
+    row_location = len(values_list) + 1
+    active_worksheet.update_cell(row_location, 2, score_data)
 
 
 def game_data_input():
