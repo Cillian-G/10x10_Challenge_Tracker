@@ -21,6 +21,9 @@ welcome_message = "Welcome to 10x10_challenge_tracker, a handy tool for "\
 
 description_request = "Enter a brief description of the result of the game:\n"
 
+choice_prompt = "\nEnter 1 for an overview of your progress across all games"\
+    "\nEnter 2 for a detailed view of your progress with this game"\
+    "\nEnter 3 to return to the start menu\n"
 game_selection = int
 result_type = ""
 game_data_worksheets = ("game1", "game2", "game3", "game4", "game5", "game6",
@@ -30,6 +33,7 @@ duration_data = ""
 score_data = ""
 description_data = ""
 selected_title = ""
+game_type = SHEET.worksheet("game_type")
 
 
 def clear():
@@ -45,6 +49,7 @@ def welcome_menu():
     """
     clear()
     print(welcome_message)
+    get_game_selection()
 
 
 def validate_game_selection(selection):
@@ -62,6 +67,7 @@ def validate_game_selection(selection):
 
 
 def validate_duration(duration):
+    clear()
     try:
         duration = int(duration)
         if (duration >= 10 and duration <= 500):
@@ -75,6 +81,7 @@ def validate_duration(duration):
 
 
 def validate_score(score):
+    clear()
     try:
         if type(int(score)) == int:
             return True
@@ -87,6 +94,7 @@ def validate_score(score):
 
 
 def validate_description(description):
+    clear()
     try:
         if len(description) > 10 and len(description) < 60:
             return True
@@ -114,7 +122,6 @@ def get_game_selection():
 
         print(game_selection_instructions)
 
-        game_type = SHEET.worksheet("game_type")
         # for ind in range(1, 11):
         #     title = game_type.cell(ind, 2).value
         #     print(f"{ind} {title}")
@@ -156,7 +163,7 @@ def get_score():
 def get_result_description():
     global description_data
     while True:
-        description_data = input( f"\n{description_request}")
+        description_data = input(f"{description_request}")
         if validate_description(description_data):
             break
     values_list = active_worksheet.col_values(4)
@@ -169,14 +176,16 @@ def game_data_input():
     if result_type == "score_based":
         get_score()
     get_result_description()
+    clear()
     print(f"{selected_title} session summary\nLength:{duration_data} mins")
     if result_type == "score_based":
         print(f"Winning score: {score_data}")
     print(f"Description: {description_data}")
+    print("")
     challenge_graph()
-    # current_game_overview()
+    user_choice()
 
-
+    
 def challenge_graph():
     games_played = len(active_worksheet.col_values(1)) - 1
     games_remaining = 10 - games_played
@@ -184,13 +193,41 @@ def challenge_graph():
     graph = ""
     for i in range(games_played):
         graph += "█   "
-    
     for i in range(games_remaining):
         graph += "░   "
 
     print(graph)   
 
 
+def overview_graph():
+    global active_worksheet
+    global selected_title
+    clear()
+    for ind in range(1, 11):
+        game_selection = int(ind)
+        selected_title = game_type.cell(game_selection, 2).value
+        active_worksheet = game_data_worksheets[int(game_selection) - 1]
+        active_worksheet = SHEET.worksheet(active_worksheet)
+        challenge_graph()
+
+
+def user_choice():
+    while True:
+        choice = int(input(choice_prompt))
+        if choice == 1:
+            overview_graph()
+            break
+        elif choice == 2:
+            print("choice2")
+            break
+        elif choice == 3:
+            welcome_menu()
+            break
+        else:
+            clear()
+            print("Invalid selection, please choose from the options listed")
+
+
 welcome_menu()
-get_game_selection()
+
 
