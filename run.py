@@ -24,6 +24,11 @@ description_request = "Enter a brief description of the result of the game:\n"
 choice_prompt = "\nEnter 1 for an overview of your progress across all games"\
     "\nEnter 2 for a detailed view of your progress with this game"\
     "\nEnter 3 to return to the start menu\n"
+
+start_menu = "To see an overview of your progress in the "\
+    "challenge, enter 1\nTo record a play, enter 2"\
+    "\nTo see data about a particular game, enter 3\n"
+
 game_selection = int
 result_type = ""
 game_data_worksheets = ("game1", "game2", "game3", "game4", "game5", "game6",
@@ -49,7 +54,21 @@ def welcome_menu():
     """
     clear()
     print(welcome_message)
-    get_game_selection()
+    while True:
+        choice = int(input(start_menu))
+        if choice == 1:
+            overview_graph()
+            break
+        elif choice == 2:
+            get_game_selection()
+            game_data_input()
+            break
+        elif choice == 3:
+            get_game_selection()
+            break
+        else:
+            clear()
+            print("Invalid selection, please choose from the options listed")
 
 
 def validate_game_selection(selection):
@@ -111,6 +130,7 @@ def get_game_selection():
     Requests the user to input a number corresponding to the game
     they wish to select
     """
+    clear()
     while True:
         game_selection_instructions = "\nEnter the number that corresponds "\
                                     "to the game you wish to enter data for\n"
@@ -135,7 +155,6 @@ def get_game_selection():
             print(active_worksheet)
             active_worksheet = SHEET.worksheet(active_worksheet)
             break
-    game_data_input()
 
 
 def get_duration():
@@ -183,7 +202,6 @@ def game_data_input():
     print(f"Description: {description_data}")
     print("")
     challenge_graph()
-    user_choice()
 
     
 def challenge_graph():
@@ -209,23 +227,32 @@ def overview_graph():
         active_worksheet = game_data_worksheets[int(game_selection) - 1]
         active_worksheet = SHEET.worksheet(active_worksheet)
         challenge_graph()
+    menu_return()
 
 
-def user_choice():
+# def user_choice():
+#     while True:
+#         choice = int(input(choice_prompt))
+#         if choice == 1:
+#             overview_graph()
+#             break
+#         elif choice == 2:
+#             print("choice2")
+#             break
+#         elif choice == 3:
+#             welcome_menu()
+#             break
+#         else:
+#             clear()
+#             print("Invalid selection, please choose from the options listed")
+
+
+def menu_return():
     while True:
-        choice = int(input(choice_prompt))
-        if choice == 1:
-            overview_graph()
-            break
-        elif choice == 2:
-            print("choice2")
-            break
-        elif choice == 3:
-            welcome_menu()
-            break
-        else:
+        input("\nPress enter to return to the start menu\n")
+        if input:
             clear()
-            print("Invalid selection, please choose from the options listed")
+            welcome_menu()
 
 
 welcome_menu()
