@@ -25,7 +25,7 @@ choice_prompt = "\nEnter 1 for an overview of your progress across all games"\
     "\nEnter 2 for a detailed view of your progress with this game"\
     "\nEnter 3 to return to the start menu\n"
 
-start_menu = "To see an overview of your progress in the "\
+start_menu = "\nTo see an overview of your progress in the "\
     "challenge, enter 1\nTo record a play, enter 2"\
     "\nTo see data about a particular game, enter 3\n"
 
@@ -207,26 +207,38 @@ def game_data_input():
 def challenge_graph():
     games_played = len(active_worksheet.col_values(1)) - 1
     games_remaining = 10 - games_played
-    print(f"{selected_title} - {games_played}/10 games played")
+    if games_played >= 10:
+        completed = " - Game Completed!"
+    else:
+        completed = ""
+    print(f"{selected_title} - {games_played}/10 games played{completed}")
     graph = ""
     for i in range(games_played):
         graph += "█   "
     for i in range(games_remaining):
         graph += "░   "
 
-    print(graph)   
+    print(graph)
+    return games_played
 
 
 def overview_graph():
     global active_worksheet
     global selected_title
+    games_tally = 0
     clear()
     for ind in range(1, 11):
         game_selection = int(ind)
         selected_title = game_type.cell(game_selection, 2).value
         active_worksheet = game_data_worksheets[int(game_selection) - 1]
         active_worksheet = SHEET.worksheet(active_worksheet)
-        challenge_graph()
+        games_tally += challenge_graph()
+    if games_tally >= 100:
+        games_tally = 100
+        congrats = " -- Congratualtions on completing your 10x10 challenge!"
+    else:
+        congrats = ""
+    print(f"{games_tally}/100 games played{congrats}")
     menu_return()
 
 
@@ -249,12 +261,11 @@ def overview_graph():
 
 def menu_return():
     while True:
-        input("\nPress enter to return to the start menu\n")
+        input("Press enter to return to the start menu\n")
         if input:
             clear()
             welcome_menu()
 
 
 welcome_menu()
-
 
