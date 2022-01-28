@@ -23,12 +23,12 @@ description_request = "Enter a brief description of the result of the game:\n"
 
 choice_prompt = "\nEnter 1 for an overview of your progress across all games"\
     "\nEnter 2 for a detailed view of your progress with this game"\
-    "\nEnter 3 to return to the start menu\nEnter 4 to view a guide to \n"\
-    "the use of this application"
+    "\nEnter 3 to return to the start menu"
 
 start_menu = "\nTo see an overview of your progress in the "\
     "challenge, enter 1\nTo record a play, enter 2"\
-    "\nTo see data about a particular game, enter 3\n"
+    "\nTo see data about a particular game, enter 3"\
+    "\nTo view a guide to the use of this application, enter 4\n"
 
 game_selection = int
 result_type = ""
@@ -136,7 +136,7 @@ def get_game_selection():
     clear()
     while True:
         game_selection_instructions = "\nEnter the number that corresponds "\
-                                    "to the game you wish to enter data for\n"
+                                    "to the game you wish to select\n"
 
         global game_selection
         global result_type
@@ -155,7 +155,6 @@ def get_game_selection():
             result_type = game_type.cell(game_selection, 3).value
             active_worksheet = game_data_worksheets[int(game_selection) - 1]
             print(f"You have selected {selected_title}")
-            print(active_worksheet)
             active_worksheet = SHEET.worksheet(active_worksheet)
             break
 
@@ -248,6 +247,7 @@ def overview_graph():
 
 
 def show_guide():
+    clear()
     print("guide")
     menu_return()
 
