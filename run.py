@@ -23,7 +23,8 @@ description_request = "Enter a brief description of the result of the game:\n"
 
 choice_prompt = "\nEnter 1 for an overview of your progress across all games"\
     "\nEnter 2 for a detailed view of your progress with this game"\
-    "\nEnter 3 to return to the start menu\n"
+    "\nEnter 3 to return to the start menu\nEnter 4 to view a guide to \n"\
+    "the use of this application"
 
 start_menu = "\nTo see an overview of your progress in the "\
     "challenge, enter 1\nTo record a play, enter 2"\
@@ -66,6 +67,8 @@ def welcome_menu():
         elif choice == 3:
             get_game_selection()
             break
+        elif choice == 4:
+            show_guide()
         else:
             clear()
             print("Invalid selection, please choose from the options listed")
@@ -142,9 +145,9 @@ def get_game_selection():
 
         print(game_selection_instructions)
 
-        # for ind in range(1, 11):
-        #     title = game_type.cell(ind, 2).value
-        #     print(f"{ind} {title}")
+        for ind in range(1, 11):
+            title = game_type.cell(ind, 2).value
+            print(f"{ind} {title}")
 
         game_selection = input("\nEnter your game selection here: ")
         if validate_game_selection(game_selection):
@@ -202,6 +205,7 @@ def game_data_input():
     print(f"Description: {description_data}")
     print("")
     challenge_graph()
+    menu_return()
 
     
 def challenge_graph():
@@ -209,6 +213,7 @@ def challenge_graph():
     games_remaining = 10 - games_played
     if games_played >= 10:
         completed = " - Game Completed!"
+        games_played = 10
     else:
         completed = ""
     print(f"{selected_title} - {games_played}/10 games played{completed}")
@@ -241,6 +246,10 @@ def overview_graph():
     print(f"{games_tally}/100 games played{congrats}")
     menu_return()
 
+
+def show_guide():
+    print("guide")
+    menu_return()
 
 # def user_choice():
 #     while True:
