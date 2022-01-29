@@ -26,9 +26,41 @@ choice_prompt = "\nEnter 1 for an overview of your progress across all games"\
     "\nEnter 3 to return to the start menu"
 
 start_menu = "\nTo see an overview of your progress in the "\
-    "challenge, enter 1\nTo record a play, enter 2"\
+    "challenge, enter 1\nTo log a play, enter 2"\
     "\nTo see data about a particular game, enter 3"\
     "\nTo view a guide to the use of this application, enter 4\n"
+
+guide = "Upon running this program, the user is presented with three options"\
+    " as to how they may proceed. This guide will offer some clarification"\
+    " regarding each of these three options and their correct use\n"\
+    "\n1. Challenge overview\n Selecting this option will present the user "\
+    "with an overview of their progress in the challenge. This overview"\
+    "takes the form of ten graphs, one for each game. The '█' characters on "\
+    "the graphs indicate the number of times a given game has been played, "\
+    "while the '░' characters indicate how many 'plays' remain until the "\
+    "challenge is complete.\n For example,the following graph indicates a "\
+    "game that has been played 6 times, and shows that 4 games remain to be "\
+    "played before the challenge is complete\n '█  █  █  █  █  █  ░  ░  ░  ░'"\
+    "\n\n2. Logging session data\nThis option will allow "\
+    "the user to log details of a game they played as part of the challenge."\
+    " After indicating which game is being logged, the user will be asked "\
+    " to input the duration of the session in minutes, the winners score "\
+    "(if applicable), as well as a brief description of the game's result. "\
+    "Upon submitting this data, the user will be presented with a summary "\
+    "of the details they just entered, as well as a graph of the same type "\
+    "shown above which will display their progress in that particular game."\
+    "\n3. Single-game overview\n This option allows players to view a"\
+    "a summary of the data they have entered for a particular title, as "\
+    "well as some statistics relevant to they type of game in question. "\
+    "Players will be presented with a comparison of the durations and scores"\
+    "of the first play they recorded with those from their most recent games."\
+    "\n - It should be noted that that the progress graphs and accompanying "\
+    "text (i.e.'x/10 games played') will not continue counting past 10, as"\
+    "the purpose of this tool is to assist in tracking the users progress in"\
+    "completing the 10x10 challenge. Users may still log data after they "\
+    "have played 10 games of a particular title, however this data will not"\
+    "be utilised by any of this programs functions for viewing and comparing"\
+    " logged plays."
 
 game_selection = int
 result_type = ""
@@ -56,18 +88,18 @@ def welcome_menu():
     clear()
     print(welcome_message)
     while True:
-        choice = int(input(start_menu))
-        if choice == 1:
+        choice = input(start_menu)
+        if choice == "1":
             overview_graph()
             break
-        elif choice == 2:
+        elif choice == "2":
             get_game_selection()
             game_data_input()
             break
-        elif choice == 3:
+        elif choice == "3":
             get_game_selection()
             break
-        elif choice == 4:
+        elif choice == "4":
             show_guide()
         else:
             clear()
@@ -80,10 +112,10 @@ def validate_game_selection(selection):
         selection = int(selection)
         if (selection >= 1 and selection <= 10):
             return True
-        else: 
+        else:
             raise ValueError(
                 "Please enter a value between 1 and 10")
-    except ValueError as selection:
+    except ValueError as e:
         print(f"{selection} is not a valid input, please try again")
         return False
 
@@ -94,11 +126,11 @@ def validate_duration(duration):
         duration = int(duration)
         if (duration >= 10 and duration <= 500):
             return True
-        else: 
+        else:
             raise ValueError(
                 "Please enter a value between 10 and 500")
     except ValueError as e:
-        print(f"Invalid input: {e}")
+        print(f"Invalid input: {duration}")
         return False
 
 
@@ -107,7 +139,7 @@ def validate_score(score):
     try:
         if type(int(score)) == int:
             return True
-        else: 
+        else:
             raise ValueError(
                 "Please enter an integer value")
     except ValueError as e:
@@ -118,13 +150,13 @@ def validate_score(score):
 def validate_description(description):
     clear()
     try:
-        if len(description) > 10 and len(description) < 60:
+        if len(description) >= 10 and len(description) <= 60:
             return True
-        else: 
-            raise ValueError(
-                "Please enter a description of less than 60 characters")
+        else:
+            print(
+                "Description must be 10-60 characters")
     except ValueError as e:
-        print(f"Invalid input: {e}")
+        print(f"Invalid input: {description}")
         return False
 
 
@@ -206,15 +238,15 @@ def game_data_input():
     challenge_graph()
     menu_return()
 
-    
+
 def challenge_graph():
     games_played = len(active_worksheet.col_values(1)) - 1
-    games_remaining = 10 - games_played
     if games_played >= 10:
         completed = " - Game Completed!"
         games_played = 10
     else:
         completed = ""
+    games_remaining = 10 - games_played
     print(f"{selected_title} - {games_played}/10 games played{completed}")
     graph = ""
     for i in range(games_played):
@@ -248,7 +280,7 @@ def overview_graph():
 
 def show_guide():
     clear()
-    print("guide")
+    print(guide)
     menu_return()
 
 # def user_choice():
