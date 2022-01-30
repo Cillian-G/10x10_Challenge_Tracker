@@ -16,9 +16,9 @@ SHEET = GSPREAD_CLIENT.open('10x10_challenge_tracker')
 
                     
 welcome_message = "--------------------------------------------------------"\
-    "--------------\nWelcome to 10x10_challenge_tracker, a handy tool for "\
+    "------------\nWelcome to the 10x10 challenge tracker, a handy tool for "\
     "keeping track \nof your 10x10 challenge as you complete it\n-----------"\
-    "-----------------------------------------------------------"
+    "---------------------------------------------------------"
 
 description_request = "Enter a brief description of the result of the game:\n"
 
