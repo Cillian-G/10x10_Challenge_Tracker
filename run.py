@@ -14,10 +14,11 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('10x10_challenge_tracker')
 
-
-welcome_message = "Welcome to 10x10_challenge_tracker, a handy tool for "\
-                  "keeping track \nof your 10x10 challenge as you complete "\
-                  "it"
+                    
+welcome_message = "--------------------------------------------------------"\
+    "--------------\nWelcome to 10x10_challenge_tracker, a handy tool for "\
+    "keeping track \nof your 10x10 challenge as you complete it\n-----------"\
+    "-----------------------------------------------------------"
 
 description_request = "Enter a brief description of the result of the game:\n"
 
@@ -49,12 +50,12 @@ guide = "Upon running this program, the user is presented with three options"\
     "Upon submitting this data, the user will be presented with a summary "\
     "of the details they just entered, as well as a graph of the same type "\
     "shown above which will display their progress in that particular game.\n"\
-    "\n3. Single-game overview\n This option allows players to view a"\
+    "\n3. Single-game overview\nThis option allows players to view a"\
     "a summary of the data they have entered for a particular title, as "\
     "well as some statistics relevant to they type of game in question. "\
     "Players will be presented with a comparison of the durations "\
     "of the first play they recorded with that their most recent games."\
-    "\n - It should be noted that that the progress graphs and accompanying "\
+    "\n- It should be noted that that the progress graphs and accompanying "\
     "text (i.e.'x/10 games played') will not continue counting past 10, as "\
     "the purpose of this tool is to assist in tracking the users progress in"\
     " completing the 10x10 challenge. Users may still log data after they "\
