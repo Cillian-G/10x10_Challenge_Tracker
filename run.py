@@ -44,7 +44,7 @@ guide = "Upon running this program, the user is presented with three options"\
     "\n\n2. Logging session data\nThis option will allow "\
     "the user to log details of a game they played as part of the challenge."\
     " After indicating which game is being logged, the user will be asked "\
-    " to input the duration of the session in minutes, the winners score "\
+    " to input the duration of the session in minutes, the winner's score "\
     "(if applicable), as well as a brief description of the game's result. "\
     "Upon submitting this data, the user will be presented with a summary "\
     "of the details they just entered, as well as a graph of the same type "\
@@ -52,13 +52,13 @@ guide = "Upon running this program, the user is presented with three options"\
     "\n3. Single-game overview\n This option allows players to view a"\
     "a summary of the data they have entered for a particular title, as "\
     "well as some statistics relevant to they type of game in question. "\
-    "Players will be presented with a comparison of the durations and scores"\
-    "of the first play they recorded with those from their most recent games."\
+    "Players will be presented with a comparison of the durations "\
+    "of the first play they recorded with that their most recent games."\
     "\n - It should be noted that that the progress graphs and accompanying "\
-    "text (i.e.'x/10 games played') will not continue counting past 10, as"\
+    "text (i.e.'x/10 games played') will not continue counting past 10, as "\
     "the purpose of this tool is to assist in tracking the users progress in"\
-    "completing the 10x10 challenge. Users may still log data after they "\
-    "have played 10 games of a particular title, however this data will not"\
+    " completing the 10x10 challenge. Users may still log data after they "\
+    "have played 10 games of a particular title, however this data will not "\
     "be utilised by any of this programs functions for viewing and comparing"\
     " logged plays.\n"
 
@@ -113,6 +113,9 @@ def welcome_menu():
 
 
 def validate_game_selection(selection):
+    """
+    Validates user input during game selection process
+    """
     clear()
     try:
         selection = int(selection)
@@ -127,6 +130,9 @@ def validate_game_selection(selection):
 
 
 def validate_duration(duration):
+    """
+    Validates user-input value for the duration of a logged play
+    """
     clear()
     try:
         duration = int(duration)
@@ -141,6 +147,10 @@ def validate_duration(duration):
 
 
 def validate_score(score):
+    """
+    Validates user-input value for the score of a logged play, if
+    the game is score-based
+    """
     clear()
     try:
         if type(int(score)) == int:
@@ -154,6 +164,10 @@ def validate_score(score):
 
 
 def validate_description(description):
+    """
+    Validates user-input value for the description of a logged play
+    ensuring it is between 10 and 60 characters long
+    """
     clear()
     try:
         if len(description) >= 10 and len(description) <= 60:
@@ -169,7 +183,8 @@ def validate_description(description):
 def get_game_selection():
     """
     Requests the user to input a number corresponding to the game
-    they wish to select
+    they wish to select, and sets the active worksheet to correspond
+    to this number
     """
     clear()
     while True:
@@ -198,6 +213,10 @@ def get_game_selection():
 
 
 def get_duration():
+    """
+    Requests the user to input the duration of their game in minutes,
+    and inserts this input into the appropriate cell of the active worksheet
+    """
     global duration_data
     while True:
         duration_data = input("Enter game duration in minutes: ")
@@ -209,6 +228,10 @@ def get_duration():
 
 
 def get_score():
+    """
+    Requests the user to input the score of their game, if applicable,
+    and inserts this input into the appropriate cell of the active worksheet
+    """
     global score_data
     while True:
         score_data = input("Enter winning player's score: ")
@@ -220,6 +243,10 @@ def get_score():
 
 
 def get_result_description():
+    """
+    Requests the user to input a description of the result of their game,
+    and inserts this input into the appropriate cell of the active worksheet
+    """
     global description_data
     while True:
         description_data = input(f"{description_request}")
@@ -231,6 +258,9 @@ def get_result_description():
 
 
 def game_data_input():
+    """
+    Calls the get_duration, get_score, and get_description functions in order
+    """
     get_duration()
     if result_type == "score_based":
         get_score()
@@ -246,6 +276,10 @@ def game_data_input():
 
 
 def challenge_graph():
+    """
+    Prints a graph of challenge progress for the currently selected game
+    based on the number of occupied rows in that games spreadsheet 
+    """
     games_played = len(active_worksheet.col_values(1)) - 1
     if games_played >= 10:
         completed = " - Game Completed!"
@@ -265,6 +299,10 @@ def challenge_graph():
 
 
 def overview_graph():
+    """
+    Call the challenge graph function once for each game in the challenge,
+    and displays a numerical 'x/100' to display the users cumulative progress 
+    """
     global active_worksheet
     global selected_title
     games_tally = 0
@@ -285,12 +323,18 @@ def overview_graph():
 
 
 def show_guide():
+    """
+    Prints a guide intended to instruct use of the 10x10 Challenge Tracker
+    """
     clear()
     print(guide)
     menu_return()
 
 
 def print_logged_data():
+    """
+    Prints the logged data for each play of a user-selected game
+    """
     global first_duration
     global last_duration
     global number_of_plays
@@ -299,12 +343,12 @@ def print_logged_data():
         number_of_plays = 10
     for i in range(1, number_of_plays+1):
         duration = active_worksheet.cell((i+1), 1).value
-        
+
         if i == 1:
             first_duration = int(duration)
         elif i == number_of_plays:
             last_duration = int(duration)
-        
+
         if result_type == "score_based":
             score = active_worksheet.cell((i+1), 2).value
             score_string = f" Score: {score}"
@@ -319,6 +363,10 @@ def print_logged_data():
 
 
 def comparison():
+    """
+    Compares the duration of the users first play of a given game to that of
+    their most recent game
+    """
     global percentage
     if number_of_plays > 1:
         if first_duration > last_duration:
@@ -332,12 +380,15 @@ def comparison():
     menu_return()
 
 
-recent_game = "Your most recent game was "
+recent_game = "\nThe duration of your most recent game was "
 duration_increase = "% longer than your first"
 duration_decrease = "% shorter than your first"
 
 
 def menu_return():
+    """
+    Prompts the user to press enter to return to the welcome menu
+    """
     while True:
         input("Press enter to return to the start menu\n")
         if input:
@@ -347,4 +398,3 @@ def menu_return():
 
 
 welcome_menu()
-
