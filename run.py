@@ -34,11 +34,11 @@ guide = "Upon running this program, the user is presented with three options"\
     " as to how they may proceed. This guide will offer some clarification"\
     " regarding each of these three options and their correct use\n"\
     "\n1. Challenge overview\n Selecting this option will present the user "\
-    "with an overview of their progress in the challenge. This overview"\
+    "with an overview of their progress in the challenge. This overview "\
     "takes the form of ten graphs, one for each game. The '█' characters on "\
     "the graphs indicate the number of times a given game has been played, "\
     "while the '░' characters indicate how many 'plays' remain until the "\
-    "challenge is complete.\n For example,the following graph indicates a "\
+    "challenge is complete.\nFor example, the following graph indicates a "\
     "game that has been played 6 times, and shows that 4 games remain to be "\
     "played before the challenge is complete\n '█  █  █  █  █  █  ░  ░  ░  ░'"\
     "\n\n2. Logging session data\nThis option will allow "\
@@ -48,7 +48,7 @@ guide = "Upon running this program, the user is presented with three options"\
     "(if applicable), as well as a brief description of the game's result. "\
     "Upon submitting this data, the user will be presented with a summary "\
     "of the details they just entered, as well as a graph of the same type "\
-    "shown above which will display their progress in that particular game."\
+    "shown above which will display their progress in that particular game.\n"\
     "\n3. Single-game overview\n This option allows players to view a"\
     "a summary of the data they have entered for a particular title, as "\
     "well as some statistics relevant to they type of game in question. "\
@@ -60,7 +60,7 @@ guide = "Upon running this program, the user is presented with three options"\
     "completing the 10x10 challenge. Users may still log data after they "\
     "have played 10 games of a particular title, however this data will not"\
     "be utilised by any of this programs functions for viewing and comparing"\
-    " logged plays."
+    " logged plays.\n"
 
 game_selection = int
 result_type = ""
@@ -98,6 +98,7 @@ def welcome_menu():
             break
         elif choice == "3":
             get_game_selection()
+            print_logged_data()
             break
         elif choice == "4":
             show_guide()
@@ -219,9 +220,9 @@ def get_result_description():
         description_data = input(f"{description_request}")
         if validate_description(description_data):
             break
-    values_list = active_worksheet.col_values(4)
+    values_list = active_worksheet.col_values(3)
     row_location = len(values_list) + 1
-    active_worksheet.update_cell(row_location, 4, description_data)
+    active_worksheet.update_cell(row_location, 3, description_data)
 
 
 def game_data_input():
@@ -283,21 +284,21 @@ def show_guide():
     print(guide)
     menu_return()
 
-# def user_choice():
-#     while True:
-#         choice = int(input(choice_prompt))
-#         if choice == 1:
-#             overview_graph()
-#             break
-#         elif choice == 2:
-#             print("choice2")
-#             break
-#         elif choice == 3:
-#             welcome_menu()
-#             break
-#         else:
-#             clear()
-#             print("Invalid selection, please choose from the options listed")
+
+def print_logged_data():
+    number_of_plays = len(active_worksheet.col_values(1)) - 1
+    if number_of_plays > 10:
+        number_of_plays = 10
+    for i in range(1, number_of_plays+1):
+        duration = active_worksheet.cell((i+1), 1).value
+        if result_type == "score_based":
+            score = active_worksheet.cell((i+1), 2).value
+            score_string = f" Score: {score}"
+        else:
+            score_string = ""
+        result_description = active_worksheet.cell((i+1), 3).value
+        print(f"Session {i}. Duration: {duration} minutes.{score_string}")
+        print(f"Result description: {result_description}")
 
 
 def menu_return():
