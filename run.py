@@ -62,6 +62,7 @@ guide = "Upon running this program, the user is presented with three options"\
     "be utilised by any of this programs functions for viewing and comparing"\
     " logged plays.\n"
 
+
 game_selection = int
 result_type = ""
 game_data_worksheets = ("game1", "game2", "game3", "game4", "game5", "game6",
@@ -72,6 +73,10 @@ score_data = ""
 description_data = ""
 selected_title = ""
 game_type = SHEET.worksheet("game_type")
+first_duration = 0
+last_duration = 0
+number_of_plays = 0
+percentage = 0
 
 
 def clear():
@@ -286,19 +291,50 @@ def show_guide():
 
 
 def print_logged_data():
+    global first_duration
+    global last_duration
+    global number_of_plays
     number_of_plays = len(active_worksheet.col_values(1)) - 1
     if number_of_plays > 10:
         number_of_plays = 10
     for i in range(1, number_of_plays+1):
         duration = active_worksheet.cell((i+1), 1).value
+        
+        if i == 1:
+            first_duration = int(duration)
+        elif i == number_of_plays:
+            last_duration = int(duration)
+        
         if result_type == "score_based":
             score = active_worksheet.cell((i+1), 2).value
             score_string = f" Score: {score}"
         else:
             score_string = ""
+
         result_description = active_worksheet.cell((i+1), 3).value
+
         print(f"Session {i}. Duration: {duration} minutes.{score_string}")
         print(f"Result description: {result_description}")
+    comparison()
+
+
+def comparison():
+    global percentage
+    if number_of_plays > 1:
+        if first_duration > last_duration:
+            percentage = int((1 - (last_duration / first_duration)) * 100)
+            print(recent_game + str(percentage) + duration_decrease)
+        elif first_duration < last_duration:
+            percentage = int(((last_duration / first_duration) - 1) * 100)
+            print((recent_game + str(percentage) + duration_increase))
+        else:
+            print("")
+    menu_return()
+
+
+recent_game = "Your most recent game was "
+duration_increase = "% longer than your first"
+duration_decrease = "% shorter than your first"
 
 
 def menu_return():
@@ -307,6 +343,7 @@ def menu_return():
         if input:
             clear()
             welcome_menu()
+            break
 
 
 welcome_menu()
