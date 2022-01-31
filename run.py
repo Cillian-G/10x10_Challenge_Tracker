@@ -360,6 +360,9 @@ def print_logged_data():
 
         print(f"Session {i}. Duration: {duration} minutes.{score_string}")
         print(f"Result description: {result_description}")
+
+    if number_of_plays == 0:
+        print("There are no plays recorded for this game")
     comparison()
 
 
