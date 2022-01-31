@@ -17,16 +17,14 @@ The 10x10 Challenge is a self imposed challenge undertaken by hobby board-game e
 ![terminal filled with overview graphs](/documentation/overview_graphs.png)
 
 ### Flowchart
+ 
+ ![Prototype Flowchart](/documentation/flowchart/flowchart.png)
 
- flowchart PIC 
- 
- 
- 
- ![](/documentation/am_i_responsive.png)
+Pictured above is the protoype/wireframe flowchart 
 
 ## Features
 
-### sheets
+### Sheets
 
 ![game type sheet](/documentation/game_type_sheet.png)
 
@@ -95,43 +93,30 @@ The third option in the welcome menu allows the user to see detailed data about 
  The final option presented to the player in the welcome menu is the guide. This guide offers a simple summary of the functions of the 10x10 Challenge Tracker
 
 
-## Technologies Used (explain various tech used, such as HTML, CSS, Balsamiq, TinyPNG, Gitpod, GitHub, Git, etc.)
+## Technologies Used 
+
+- This program was written in Python.
+- The IDE used was Gitpod.
+- Flowcharts were created using LucidChart.
+- Heroku was used for deployment.
+- GoogleSheets was used as a rudimentary database.
+- GoogleAPI was used to interface with GoogleSheets.
+
 ## Testing
- - Make TESTING.md file
 
-https://github.com/Cillian-G/10x10_Challenge_Tracker/commit/b71c9575af9c431a4f47f2c8efe861e9c64c35a3?diff=split 
- -  Aware of the commit
+See TESTING.MD for testing details.
 
- - List bugs fixed with Tim
- - Entering strings for ints etc. change menu input if statements from if 1 to if "1" etc.
- - negative value for games_remaining
- -rate limi screenshot from Tim
-### Code Validation
-### Tested User Stories
- - paste user stories, use same screenshots from feautes to line up with features.
-### Unfixed Bugs
-- if you have any. if not "No unfixed bugs that i am aware of"
 ## Deployment
- - Creating credentials step-by-step as per the Code Institute instiructional video
- - how to get google sheets, APIs etc, how to Heroku, get Heroku to connect with Github.
 
-### Local Deployment
-
-In order to make a local copy of this project, you can clone it. In your IDE Terminal, type the following command to clone my repository:
-
-- `git clone https://github.com/Cillian-G/10x10_Challenge_Tracker.git`
-
-Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Cillian-G/10x10_Challenge_Tracker)
-
-You'll need to install the required packages in order for this application to run. To do that, you can use this command:
-
-- `pip3 install -r requirements.txt`
-
+See DEPLOYMENT.md for deployment details
+ 
 ## Credits
- - code insitute love sandwiches for APIS, Creds.json etc
- - stack overflow stuff
- - slack community (find some links)
+
+- Characters for challenge progress graphs http://www.amp-what.com/unicode/search/block 
+- Instructions for google APIs, credentials from Code Institute’s Love Sandwiches walkthrough project
+-  Github template from Code Institutes Python essentials template https://github.com/Code-Institute-Org/python-essentials-template
+
 
 ### Acknowledgements
+
+Many thanks to my Code Institute mentor Tim who suggested helpful resources, and gave me much useful advice regarding this project.
