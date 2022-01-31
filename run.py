@@ -160,7 +160,7 @@ def validate_score(score):
             raise ValueError(
                 "Please enter an integer value")
     except ValueError as e:
-        print(f"Invalid input: {e}")
+        print(f"Invalid input: {score} is not an integer value")
         return False
 
 
