@@ -14,7 +14,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('10x10_challenge_tracker')
 
-                    
+
 welcome_message = "--------------------------------------------------------"\
     "------------\nWelcome to the 10x10 challenge tracker, a handy tool for "\
     "keeping track \nof your 10x10 challenge as you complete it\n-----------"\
@@ -279,7 +279,7 @@ def game_data_input():
 def challenge_graph():
     """
     Prints a graph of challenge progress for the currently selected game
-    based on the number of occupied rows in that games spreadsheet 
+    based on the number of occupied rows in that games spreadsheet
     """
     games_played = len(active_worksheet.col_values(1)) - 1
     if games_played >= 10:
@@ -302,7 +302,7 @@ def challenge_graph():
 def overview_graph():
     """
     Call the challenge graph function once for each game in the challenge,
-    and displays a numerical 'x/100' to display the users cumulative progress 
+    and displays a numerical 'x/100' to display the users cumulative progress
     """
     global active_worksheet
     global selected_title
